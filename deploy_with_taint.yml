@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unnginx-deploymentwithtaint
+  labels:
+    app: uvnginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: uvnginx
+  template:
+    metadata:
+      labels:
+        app: uvnginx
+    spec:
+      tolerations:
+        - key: "taintdemo"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      containers:
+        - name: uvnginx-container
+          image: nginx:1.7.9
+          ports:
+            - containerPort: 80
+

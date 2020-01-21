@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uvnginx-deploy
+  labels:
+    name: uvrs-label
+    type: back-end
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+  template:
+
+    metadata:
+      name: uvnginx
+      labels:
+        name: uvrs-label
+        type: back-end
+
+    spec:
+      containers:
+        - name: uvnginx-demo
+          image: yogeshraheja/yogeshk8stest
+      nodeSelector:
+        type: back-end
+        tier: front-end
+
+  replicas: 2
+  selector:
+    matchLabels:
+      name: uvrs-label
+      type: back-end
